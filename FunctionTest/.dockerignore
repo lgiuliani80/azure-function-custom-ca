@@ -1,0 +1,6 @@
+local.settings.json
+.gitignore
+Dockerfile*
+bin
+obj
+.vscode

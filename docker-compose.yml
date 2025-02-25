@@ -1,0 +1,20 @@
+services:
+  function:
+    build:
+      context: FunctionTest
+    ports:
+      - "8080:80"
+    environment:
+      - SERVICE_URL=https://mysite1.terna:3000
+
+  fake-web-service:
+    hostname: mysite1.terna
+    build:
+      context: FakeWebService
+    ports:
+      - "3000:3000"
+    environment:
+      - KEY_PEM=/certs/mysite1.terna.pem
+      - CERT_PEM=/certs/mysite1.terna.pem
+    volumes:
+      - ./certs:/certs
