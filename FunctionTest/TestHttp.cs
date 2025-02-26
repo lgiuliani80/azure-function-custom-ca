@@ -10,7 +10,7 @@ namespace FunctionTest
         private readonly ILogger<TestHttp> _logger;
         private readonly IHttpClientFactory _httpClientFactory;
 
-        private static readonly string SERVICE_URL = Environment.GetEnvironmentVariable("SERVICE_URL");
+        private static readonly string SERVICE_URL = Environment.GetEnvironmentVariable("SERVICE_URL")!;
 
         public TestHttp(ILogger<TestHttp> logger, IHttpClientFactory httpClientFactory)
         {

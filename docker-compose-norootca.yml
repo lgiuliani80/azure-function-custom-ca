@@ -1,0 +1,35 @@
+services:
+  init-linux-certs:
+    image: ubuntu:22.04
+    command: |
+      /bin/bash -c "apt-get update && apt-get install -y openssl && openssl x509 -in /certs/ca.cer -out /var/ssl/certs/$(openssl x509 -in /certs/ca.cer -noout -fingerprint | cut -f2 -d= | tr -d :).der -outform der"
+    volumes:
+      - ./certs:/certs
+      - ./linux-certs:/var/ssl/certs
+
+  function:
+    build:
+      context: FunctionTest
+      dockerfile: Dockerfile.norootca
+    ports:
+      - "8080:80"
+    environment:
+      - SERVICE_URL=https://mysite1.terna:3000
+      - CA_THUMBPRINT=D714E0F056D61F4B7FC165C06198BC2F49912EC9
+    volumes:
+      - ./linux-certs:/var/ssl/certs
+    depends_on:
+      init-linux-certs:
+        condition: service_completed_successfully
+
+  fake-web-service:
+    hostname: mysite1.terna
+    build:
+      context: FakeWebService
+    ports:
+      - "3000:3000"
+    environment:
+      - KEY_PEM=/certs/mysite1.terna.pem
+      - CERT_PEM=/certs/mysite1.terna.pem
+    volumes:
+      - ./certs:/certs
