@@ -3,7 +3,10 @@
     "FunctionTest": {
       "commandName": "Project",
       "commandLineArgs": "--port 7209",
-      "launchBrowser": false
+      "environmentVariables": {
+        "SERVICE_URL": "https://mysite1.terna",
+        "CA_THUMBPRINT": "D714E0F056D61F4B7FC165C06198BC2F49912EC9"
+      }
     }
   }
 }
