@@ -16,7 +16,9 @@ namespace FunctionTest
             {
                 using X509Store store = new(StoreName.My, StoreLocation.CurrentUser);
                 store.Open(OpenFlags.ReadOnly);
-                return store.Certificates.Find(X509FindType.FindByThumbprint, thumbprint, false).FirstOrDefault();
+                return store.Certificates
+                    .Find(X509FindType.FindByThumbprint, thumbprint, false)
+                    .FirstOrDefault();
             }
             else
             {
